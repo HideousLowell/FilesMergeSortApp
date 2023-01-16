@@ -51,7 +51,7 @@ public class FilesMergeSorter<T extends Comparable<T>> {
                 return;
             }
             Optional<T> value = converter.safeConvert(nextLine);
-            if (value.isEmpty())
+            if (!value.isPresent())
                 updateBuffer(index);
             else if (comparator.compare(value.get(), buffer.get(index)) < 0)
                 updateBuffer(index);
@@ -81,7 +81,7 @@ public class FilesMergeSorter<T extends Comparable<T>> {
                 if (nextLine.contains(" "))
                     continue;
                 Optional<T> value = converter.safeConvert(nextLine);
-                if (value.isEmpty())
+                if (!value.isPresent())
                     continue;
                 isAnyAdded = buffer.add(value.get());
             }
