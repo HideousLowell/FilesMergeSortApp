@@ -74,10 +74,10 @@ public class FilesMergeSorter<T extends Comparable<T>> {
 
     private void initBufferWithFirstLines() {
         buffer = new ArrayList<>(scanners.size());
-        for (Scanner current : scanners) {
+        for (int i = 0; i < scanners.size(); i++) {
             boolean isAnyAdded = false;
-            while (!isAnyAdded && current.hasNextLine()) {
-                String nextLine = current.nextLine();
+            while (!isAnyAdded && scanners.get(i).hasNextLine()) {
+                String nextLine = scanners.get(i).nextLine();
                 if (nextLine.contains(" "))
                     continue;
                 Optional<T> value = converter.safeConvert(nextLine);
@@ -85,7 +85,7 @@ public class FilesMergeSorter<T extends Comparable<T>> {
                     continue;
                 isAnyAdded = buffer.add(value.get());
             }
-            if (!isAnyAdded) scanners.remove(current);
+            if (!isAnyAdded) scanners.remove(scanners.get(i--));
         }
     }
 
